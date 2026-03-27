@@ -1,0 +1,67 @@
+@use "../../styles/mixins" as *;
+
+.category-page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-2xl);
+
+  &__header {
+    margin-bottom: var(--space-xl);
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) 0;
+    transition: color var(--transition-fast);
+    border-radius: var(--radius-sm);
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  &__title {
+    font-size: var(--font-xl);
+
+    @include respond-to("tablet") {
+      font-size: var(--font-2xl);
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+
+    @include respond-to("tablet") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-3xl) var(--space-md);
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  &__empty-text {
+    font-size: var(--font-lg);
+
+    strong {
+      color: var(--color-text);
+    }
+  }
+
+  &__empty-hint {
+    font-size: var(--font-sm);
+  }
+}
