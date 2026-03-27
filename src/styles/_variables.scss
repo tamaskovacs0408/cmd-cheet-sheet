@@ -1,0 +1,67 @@
+:root {
+  // Colors — Light theme (default)
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f0f1f3;
+  --color-text: #1a1a2e;
+  --color-text-secondary: #5a6270;
+  --color-accent: #f05033;
+  --color-accent-hover: #d4442b;
+  --color-accent-light: rgba(240, 80, 51, 0.1);
+  --color-border: #e1e4e8;
+  --color-code-bg: #1e1e2e;
+  --color-code-text: #d4d4d4;
+  --color-success: #2ea043;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-backdrop: rgba(255, 255, 255, 0.85);
+
+  // Spacing
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  // Border radius
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  // Font sizes
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-2xl: 2rem;
+  --font-3xl: 2.5rem;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  // Layout
+  --header-height: 64px;
+  --max-width: 1200px;
+}
+
+// Dark theme overrides
+.theme--dark {
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-hover: #1c2129;
+  --color-text: #e6edf3;
+  --color-text-secondary: #8b949e;
+  --color-accent: #f47061;
+  --color-accent-hover: #f05033;
+  --color-accent-light: rgba(240, 80, 51, 0.15);
+  --color-border: #30363d;
+  --color-code-bg: #0d1117;
+  --color-code-text: #e6edf3;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-backdrop: rgba(13, 17, 23, 0.85);
+}
