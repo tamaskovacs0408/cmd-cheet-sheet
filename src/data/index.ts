@@ -4,6 +4,7 @@ import { bashCommands } from "./bash.commands";
 import { curlCommands } from "./curl.commands";
 import { linuxCommands } from "./linux.commands";
 import { powershellCommands } from "./powershell.commands";
+import { dockerCommands } from "./docker.commands";
 
 export const categories: Category[] = [
   { slug: "git", label: "Git", icon: "git", available: true },
@@ -16,7 +17,7 @@ export const categories: Category[] = [
     icon: "powershell",
     available: true,
   },
-  { slug: "docker", label: "Docker", icon: "docker", available: false },
+  { slug: "docker", label: "Docker", icon: "docker", available: true },
 ];
 
 export const commandsByCategory: Partial<Record<CategorySlug, Command[]>> = {
@@ -25,4 +26,5 @@ export const commandsByCategory: Partial<Record<CategorySlug, Command[]>> = {
   curl: curlCommands,
   linux: linuxCommands,
   powershell: powershellCommands,
+  docker: dockerCommands,
 };
