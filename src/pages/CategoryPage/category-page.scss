@@ -42,6 +42,15 @@
     @include respond-to("tablet") {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    &--single {
+      grid-template-columns: 1fr;
+
+      .command-card__syntax code {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    }
   }
 
   &__empty {
