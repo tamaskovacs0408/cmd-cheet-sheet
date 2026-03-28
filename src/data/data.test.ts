@@ -3,6 +3,7 @@ import { gitCommands } from "./git.commands";
 import { bashCommands } from "./bash.commands";
 import { curlCommands } from "./curl.commands";
 import { linuxCommands } from "./linux.commands";
+import { powershellCommands } from "./powershell.commands";
 import { categories, commandsByCategory } from "./index";
 
 describe("git.commands", () => {
@@ -152,6 +153,36 @@ describe("linux.commands", () => {
   });
 });
 
+describe("powershell.commands", () => {
+  it("contains commands", () => {
+    expect(powershellCommands.length).toBeGreaterThan(0);
+  });
+
+  it("all commands have required fields", () => {
+    for (const cmd of powershellCommands) {
+      expect(cmd.id).toBeTruthy();
+      expect(cmd.syntax).toBeTruthy();
+      expect(cmd.label).toBeTruthy();
+      expect(cmd.description).toBeTruthy();
+      expect(cmd.category).toBe("powershell");
+      expect(Array.isArray(cmd.keywords)).toBe(true);
+      expect(cmd.keywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("has unique IDs for all commands", () => {
+    const ids = powershellCommands.map(cmd => cmd.id);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
+  });
+
+  it('all IDs start with "ps-"', () => {
+    for (const cmd of powershellCommands) {
+      expect(cmd.id.startsWith("ps-")).toBe(true);
+    }
+  });
+});
+
 describe("categories", () => {
   it("contains all expected categories", () => {
     const slugs = categories.map(c => c.slug);
@@ -163,14 +194,15 @@ describe("categories", () => {
     expect(slugs).toContain("docker");
   });
 
-  it("git, bash, curl, and linux are available", () => {
+  it("git, bash, curl, linux, and powershell are available", () => {
     const available = categories.filter(c => c.available);
-    expect(available).toHaveLength(4);
+    expect(available).toHaveLength(5);
     const slugs = available.map(c => c.slug);
     expect(slugs).toContain("git");
     expect(slugs).toContain("bash");
     expect(slugs).toContain("curl");
     expect(slugs).toContain("linux");
+    expect(slugs).toContain("powershell");
   });
 
   it("all categories have required fields", () => {
@@ -202,7 +234,12 @@ describe("commandsByCategory", () => {
     expect(commandsByCategory.linux!.length).toBeGreaterThan(0);
   });
 
+  it("maps powershell commands correctly", () => {
+    expect(commandsByCategory.powershell).toBe(powershellCommands);
+    expect(commandsByCategory.powershell!.length).toBeGreaterThan(0);
+  });
+
   it("returns undefined for unavailable categories", () => {
-    expect(commandsByCategory.powershell).toBeUndefined();
+    expect(commandsByCategory.docker).toBeUndefined();
   });
 });
