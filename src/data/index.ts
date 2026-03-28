@@ -1,9 +1,11 @@
 import type { Category, CategorySlug, Command } from "./types";
 import { gitCommands } from "./git.commands";
+import { bashCommands } from "./bash.commands";
 
 export const categories: Category[] = [
   { slug: "git", label: "Git", icon: "git", available: true },
-  { slug: "bash", label: "Bash", icon: "bash", available: false },
+  { slug: "bash", label: "Bash", icon: "bash", available: true },
+  { slug: "curl", label: "cURL", icon: "curl", available: false },
   { slug: "linux", label: "Linux", icon: "linux", available: false },
   {
     slug: "powershell",
@@ -16,4 +18,5 @@ export const categories: Category[] = [
 
 export const commandsByCategory: Partial<Record<CategorySlug, Command[]>> = {
   git: gitCommands,
+  bash: bashCommands,
 };
