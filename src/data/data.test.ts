@@ -4,6 +4,7 @@ import { bashCommands } from "./bash.commands";
 import { curlCommands } from "./curl.commands";
 import { linuxCommands } from "./linux.commands";
 import { powershellCommands } from "./powershell.commands";
+import { dockerCommands } from "./docker.commands";
 import { categories, commandsByCategory } from "./index";
 
 describe("git.commands", () => {
@@ -183,6 +184,56 @@ describe("powershell.commands", () => {
   });
 });
 
+describe("docker.commands", () => {
+  it("contains commands", () => {
+    expect(dockerCommands.length).toBeGreaterThan(0);
+  });
+
+  it("all commands have required fields", () => {
+    for (const cmd of dockerCommands) {
+      expect(cmd.id).toBeTruthy();
+      expect(cmd.syntax).toBeTruthy();
+      expect(cmd.label).toBeTruthy();
+      expect(cmd.description).toBeTruthy();
+      expect(cmd.category).toBe("docker");
+      expect(Array.isArray(cmd.keywords)).toBe(true);
+      expect(cmd.keywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("has unique IDs for all commands", () => {
+    const ids = dockerCommands.map(cmd => cmd.id);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
+  });
+
+  it('all IDs start with "docker-"', () => {
+    for (const cmd of dockerCommands) {
+      expect(cmd.id.startsWith("docker-")).toBe(true);
+    }
+  });
+
+  it("covers database-related commands", () => {
+    const ids = dockerCommands.map(cmd => cmd.id);
+    expect(ids.some(id => id.includes("postgres"))).toBe(true);
+    expect(ids.some(id => id.includes("mysql"))).toBe(true);
+    expect(ids.some(id => id.includes("mongo"))).toBe(true);
+    expect(ids.some(id => id.includes("redis"))).toBe(true);
+  });
+
+  it("covers Dockerfile patterns", () => {
+    const ids = dockerCommands.map(cmd => cmd.id);
+    expect(ids.some(id => id.includes("dockerfile"))).toBe(true);
+    expect(ids.some(id => id.includes("multistage"))).toBe(true);
+    expect(ids.some(id => id.includes("dockerignore"))).toBe(true);
+  });
+
+  it("covers Docker Compose", () => {
+    const ids = dockerCommands.map(cmd => cmd.id);
+    expect(ids.some(id => id.includes("compose"))).toBe(true);
+  });
+});
+
 describe("categories", () => {
   it("contains all expected categories", () => {
     const slugs = categories.map(c => c.slug);
@@ -194,15 +245,16 @@ describe("categories", () => {
     expect(slugs).toContain("docker");
   });
 
-  it("git, bash, curl, linux, and powershell are available", () => {
+  it("all categories are available", () => {
     const available = categories.filter(c => c.available);
-    expect(available).toHaveLength(5);
+    expect(available).toHaveLength(6);
     const slugs = available.map(c => c.slug);
     expect(slugs).toContain("git");
     expect(slugs).toContain("bash");
     expect(slugs).toContain("curl");
     expect(slugs).toContain("linux");
     expect(slugs).toContain("powershell");
+    expect(slugs).toContain("docker");
   });
 
   it("all categories have required fields", () => {
@@ -239,7 +291,8 @@ describe("commandsByCategory", () => {
     expect(commandsByCategory.powershell!.length).toBeGreaterThan(0);
   });
 
-  it("returns undefined for unavailable categories", () => {
-    expect(commandsByCategory.docker).toBeUndefined();
+  it("maps docker commands correctly", () => {
+    expect(commandsByCategory.docker).toBe(dockerCommands);
+    expect(commandsByCategory.docker!.length).toBeGreaterThan(0);
   });
 });
