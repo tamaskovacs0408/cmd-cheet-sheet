@@ -65,8 +65,59 @@ describe("bash.commands", () => {
 });
 
 describe("curl.commands", () => {
-  it("is an empty array", () => {
-    expect(curlCommands).toEqual([]);
+  it("contains commands", () => {
+    expect(curlCommands.length).toBeGreaterThan(0);
+  });
+
+  it("all commands have required fields", () => {
+    for (const cmd of curlCommands) {
+      expect(cmd.id).toBeTruthy();
+      expect(cmd.syntax).toBeTruthy();
+      expect(cmd.label).toBeTruthy();
+      expect(cmd.description).toBeTruthy();
+      expect(cmd.category).toBe("curl");
+      expect(Array.isArray(cmd.keywords)).toBe(true);
+      expect(cmd.keywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("has unique IDs for all commands", () => {
+    const ids = curlCommands.map(cmd => cmd.id);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
+  });
+
+  it('all IDs start with "curl-"', () => {
+    for (const cmd of curlCommands) {
+      expect(cmd.id.startsWith("curl-")).toBe(true);
+    }
+  });
+
+  it("covers all HTTP methods", () => {
+    const syntaxes = curlCommands.map(cmd => cmd.syntax);
+    const hasMethod = (method: string) =>
+      syntaxes.some(
+        s =>
+          s.includes(`-X ${method}`) ||
+          (method === "GET" && s.startsWith("curl http"))
+      );
+    expect(hasMethod("GET")).toBe(true);
+    expect(hasMethod("POST")).toBe(true);
+    expect(hasMethod("PUT")).toBe(true);
+    expect(hasMethod("PATCH")).toBe(true);
+    expect(hasMethod("DELETE")).toBe(true);
+    expect(hasMethod("OPTIONS")).toBe(true);
+  });
+
+  it("covers authentication patterns", () => {
+    const ids = curlCommands.map(cmd => cmd.id);
+    expect(ids.some(id => id.includes("bearer"))).toBe(true);
+    expect(ids.some(id => id.includes("basic"))).toBe(true);
+    expect(ids.some(id => id.includes("api-key"))).toBe(true);
+    expect(ids.some(id => id.includes("jwt"))).toBe(true);
+    expect(
+      ids.some(id => id.includes("session") || id.includes("cookie"))
+    ).toBe(true);
   });
 });
 
@@ -109,9 +160,9 @@ describe("commandsByCategory", () => {
     expect(commandsByCategory.bash).toBe(bashCommands);
   });
 
-  it("maps curl commands correctly (empty)", () => {
+  it("maps curl commands correctly", () => {
     expect(commandsByCategory.curl).toBe(curlCommands);
-    expect(commandsByCategory.curl).toHaveLength(0);
+    expect(commandsByCategory.curl!.length).toBeGreaterThan(0);
   });
 
   it("returns undefined for unavailable categories", () => {
