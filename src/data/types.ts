@@ -1,4 +1,10 @@
-export type CategorySlug = "git" | "bash" | "linux" | "powershell" | "docker";
+export type CategorySlug =
+  | "git"
+  | "bash"
+  | "linux"
+  | "powershell"
+  | "docker"
+  | "curl";
 
 export interface Category {
   slug: CategorySlug;
