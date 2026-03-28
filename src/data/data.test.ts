@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { gitCommands } from "./git.commands";
 import { bashCommands } from "./bash.commands";
 import { curlCommands } from "./curl.commands";
+import { linuxCommands } from "./linux.commands";
 import { categories, commandsByCategory } from "./index";
 
 describe("git.commands", () => {
@@ -121,6 +122,36 @@ describe("curl.commands", () => {
   });
 });
 
+describe("linux.commands", () => {
+  it("contains commands", () => {
+    expect(linuxCommands.length).toBeGreaterThan(0);
+  });
+
+  it("all commands have required fields", () => {
+    for (const cmd of linuxCommands) {
+      expect(cmd.id).toBeTruthy();
+      expect(cmd.syntax).toBeTruthy();
+      expect(cmd.label).toBeTruthy();
+      expect(cmd.description).toBeTruthy();
+      expect(cmd.category).toBe("linux");
+      expect(Array.isArray(cmd.keywords)).toBe(true);
+      expect(cmd.keywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("has unique IDs for all commands", () => {
+    const ids = linuxCommands.map(cmd => cmd.id);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
+  });
+
+  it('all IDs start with "linux-"', () => {
+    for (const cmd of linuxCommands) {
+      expect(cmd.id.startsWith("linux-")).toBe(true);
+    }
+  });
+});
+
 describe("categories", () => {
   it("contains all expected categories", () => {
     const slugs = categories.map(c => c.slug);
@@ -132,13 +163,14 @@ describe("categories", () => {
     expect(slugs).toContain("docker");
   });
 
-  it("git, bash, and curl are available", () => {
+  it("git, bash, curl, and linux are available", () => {
     const available = categories.filter(c => c.available);
-    expect(available).toHaveLength(3);
+    expect(available).toHaveLength(4);
     const slugs = available.map(c => c.slug);
     expect(slugs).toContain("git");
     expect(slugs).toContain("bash");
     expect(slugs).toContain("curl");
+    expect(slugs).toContain("linux");
   });
 
   it("all categories have required fields", () => {
@@ -165,7 +197,12 @@ describe("commandsByCategory", () => {
     expect(commandsByCategory.curl!.length).toBeGreaterThan(0);
   });
 
+  it("maps linux commands correctly", () => {
+    expect(commandsByCategory.linux).toBe(linuxCommands);
+    expect(commandsByCategory.linux!.length).toBeGreaterThan(0);
+  });
+
   it("returns undefined for unavailable categories", () => {
-    expect(commandsByCategory.linux).toBeUndefined();
+    expect(commandsByCategory.powershell).toBeUndefined();
   });
 });
