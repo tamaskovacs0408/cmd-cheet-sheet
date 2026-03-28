@@ -4,8 +4,9 @@
   @include flex-center;
   @include focus-ring;
   flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-xl);
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  aspect-ratio: 1;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -15,6 +16,11 @@
     box-shadow var(--transition-fast),
     border-color var(--transition-fast),
     background-color var(--transition-base);
+
+  @include respond-to("tablet") {
+    gap: var(--space-lg);
+    padding: var(--space-2xl) var(--space-xl);
+  }
 
   &:hover:not(&--disabled) {
     transform: translateY(-2px);
@@ -29,12 +35,17 @@
 
   &__icon {
     @include flex-center;
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-md);
     background-color: var(--color-accent-light);
     color: var(--color-accent);
     transition: background-color var(--transition-base);
+
+    @include respond-to("tablet") {
+      width: 64px;
+      height: 64px;
+    }
   }
 
   &--disabled &__icon {
@@ -43,7 +54,11 @@
   }
 
   &__label {
-    font-size: var(--font-lg);
+    font-size: var(--font-sm);
     font-weight: 600;
+
+    @include respond-to("tablet") {
+      font-size: var(--font-xl);
+    }
   }
 }
