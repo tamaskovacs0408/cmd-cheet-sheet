@@ -61,7 +61,7 @@ export default function CategoryPage() {
       />
 
       {filteredCommands.length > 0 ? (
-        <div className='category-page__list'>
+        <div className={`category-page__list ${category === "curl" ? "category-page__list--single" : ""}`}>
           {filteredCommands.map(cmd => (
             <CommandCard key={cmd.id} command={cmd} />
           ))}
