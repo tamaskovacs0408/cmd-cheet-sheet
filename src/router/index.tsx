@@ -1,42 +1,13 @@
 import {
   createBrowserRouter,
-  Navigate,
-  Outlet,
-  ScrollRestoration,
+  Navigate
 } from "react-router";
-import { lazy, Suspense, type ReactNode } from "react";
-import { Header } from "@/components/layout/Header/Header";
-import { Footer } from "@/components/layout/Footer/Footer";
+import { lazy } from "react";
+import RootLayout from "@/components/layout/RootLayout";
+import SuspenseWrapper from "@/components/layout/Wrapper/SuspenseWrapper";
 
 const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
 const CategoryPage = lazy(() => import("@/pages/CategoryPage/CategoryPage"));
-
-function RootLayout() {
-  return (
-    <div className='app-layout'>
-      <Header />
-      <main className='app-layout__main'>
-        <Outlet />
-      </main>
-      <Footer />
-      <ScrollRestoration />
-    </div>
-  );
-}
-
-function SuspenseWrapper({ children }: { children: ReactNode }) {
-  return (
-    <Suspense
-      fallback={
-        <div className='loading-skeleton'>
-          <div className='loading-skeleton__pulse' />
-        </div>
-      }
-    >
-      {children}
-    </Suspense>
-  );
-}
 
 export const router = createBrowserRouter([
   {
