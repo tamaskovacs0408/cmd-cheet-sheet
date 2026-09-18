@@ -43,3 +43,7 @@ yarn-error.log*
 
 # Yarn install state
 .yarn/install-state.gz
+
+# Skill files
+skill-md-files/
+wayfinder-tickets/
